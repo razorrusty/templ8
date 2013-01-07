@@ -16,7 +16,7 @@
 		private $_template_upper_markup;
 		private $_template_lower_markup;
 		
-		public $_can_split;
+		public $_can_split;	// is true if the split keyword is detected in the template markup after loading the template
 		
 		public function __construct($filename, $is_split, $keywords)
 		{
