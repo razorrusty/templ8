@@ -67,6 +67,11 @@
 			if($this->_can_split ){
 				$this->_template_upper_markup = substr($this->_template_markup,0,stripos($this->_template_markup,$this->_split_keyword));
 				$this->_template_lower_markup = substr($this->_template_markup,stripos($this->_template_markup,$this->_split_keyword)+strlen($this->_split_keyword));			
+				
+				return true;
+			}
+			else{
+				return false;
 			}
 		}
 		
