@@ -23,7 +23,7 @@ THISKEYWORD will be usable in your HTML file as [TPL8_THISKEYWORD].
 
 ### Split the template
 Splitting the template involves splitting the HTML markup into an upper and lower portion using the [TPL8_SPLIT] keyword. 
-Typically you would put this keyword where you want to put the content, then output the upper template, your content and then the lower template.
+Typically you would place this keyword in the HTML file where you would like to put the content, then output the upper template portion, your content and then the lower portion of the template.
 
 #### Automatically
 You can split the template by specifying $split = true in the constructor.
@@ -60,6 +60,7 @@ If you've split the template, you can use these functions:
 
 ```PHP
  $main_template->output_upper(); // output everything above the split keyword
+ // Put your content here
  $main_template->output_lower(); // output everything below the split keyword
 ```
 
