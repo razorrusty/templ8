@@ -19,11 +19,11 @@ When you init the class, you specify $keywords. This should be an array of key=>
 $keywords = array('THISKEYWORD' => 'This value will be displayed');
 ```
 
-THISKEYWORD will be usable in your HTML file as [TPL8_THISKEYWORD]
+THISKEYWORD will be usable in your HTML file as [TPL8_THISKEYWORD].
 
 ### Split the template
 Splitting the template involves splitting the HTML markup into an upper and lower portion using the [TPL8_SPLIT] keyword. 
-Typically you would put this keyword where you want to put the content, then output the upper template, your content and then the lower template
+Typically you would put this keyword where you want to put the content, then output the upper template, your content and then the lower template.
 
 #### Automatically
 You can split the template by specifying $split = true in the constructor.
@@ -35,7 +35,7 @@ It's a good idea to check if the current template is splittable, so use this var
 $main_template->_can_split;
 ```
 
-Then you can manually split the template using this function
+Then you can manually split the template using this function:
 
 ```PHP
 $main_template->split_template();
@@ -63,3 +63,4 @@ If you've split the template, you can use these functions:
  $main_template->output_lower(); // output everything below the split keyword
 ```
 
+And there you have it. Simple, quick, fun.
