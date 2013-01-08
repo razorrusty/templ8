@@ -5,7 +5,7 @@
  */
 
 	 // Include the templ8 class
-	 require("lib/templ8.php");
+	 require("../lib/templ8.php");
 	 
 	// Define some custom keywords
 	// HINT: You can add other templates as keywords using $other_template->get_markup(); therefore adding subtemplates.
