@@ -26,7 +26,7 @@
 			$this->_is_split = $is_split;
 			
 			// Load tempate
-			$this->load_template();
+			$this->load_main_template();
 		}
 		
 		public function get_markup(){
@@ -75,20 +75,43 @@
 			}
 		}
 		
-		private function load_template(){
-			if(file_exists($this->_filename)){
-				// Load template
-				$this->_template_markup = file_get_contents($this->_filename);
+		public function load_template($filename, $specific_keywords = false)
+		{
+			if(file_exists($filename)){
+				$markup = file_get_contents($filename);
 				
 				// Replace standard keywords
 				foreach($this->_standard_keywords as $keyword => $content){
-					$this->_template_markup  = str_replace("[TPL8_". $keyword. "]", $content, $this->_template_markup);
+					$markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
 				}
 				
 				// Replace custom keywords
 				foreach($this->_custom_keywords as $keyword => $content){
-					$this->_template_markup  = str_replace("[TPL8_". $keyword. "]", $content, $this->_template_markup);
+					$markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
 				}
+				
+				if($specific_keywords)
+				{
+					// Replace specific keywords
+					foreach($specific_keywords as $keyword => $content){
+						$markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
+					}
+				}
+				
+				return $markup;
+			}
+		}
+		
+		private function load_main_template(){
+					
+			// Load template markup
+			$markup = $this->load_template($this->_filename);
+			
+			// Check we have markup
+			if($markup)
+			{
+				// Save markup
+				$this->_template_markup = $markup;
 				
 				// Can we split the template?
 				$this->_can_split = !(strpos($this->_template_markup, $this->_split_keyword) === false);
@@ -97,10 +120,10 @@
 					// Split the template
 					$this->split_template();
 				}
-
 			}
-			else{
-				echo "Templ8 Error: Template not found.";
+			else 
+			{
+				echo "Templ8 Error: Requested template is blank or does not exist.";
 			}
 		}
 	}

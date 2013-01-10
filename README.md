@@ -1,5 +1,5 @@
 # Templ8 v0.1
-A really simple HTML template class for PHP. Be aware that it's still in development and features are subject to change.
+A really simple HTML template class for PHP. Be aware that it's still in development and features are subject to change, no warranty is given or implied.
 
 ## What can you do with it?
 Basically, this class enables you to load a HTML based template file, replace keywords, split the template, and output the markup
