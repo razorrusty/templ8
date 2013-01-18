@@ -29,6 +29,11 @@
 			$this->load_main_template();
 		}
 		
+		public function addKeyword($key,$val){
+			// Add a keyword to the custom keywords
+			$this->_custom_keywords[$key] = $val;
+		}
+		
 		public function get_markup(){
 			// Returns the template markup
 			return $this->_template_markup;
