@@ -17,6 +17,27 @@
 		private $_template_lower_markup;
 		
 		public $_can_split;	// is true if the split keyword is detected in the template markup after loading the template
+
+        /**
+         * Returns a templ8 object from the markup string.
+         * @param $markup the markup source.
+         * @param $keywords Template keywords.
+         */
+        static public function from_string($markup, $keywords = array() ) 
+        {
+            $templ8 = new templ8(NULL, FALSE, $keywords);
+            $templ8->_template_markup = $templ8->process_template($markup);
+            return $templ8;
+        }
+
+        /**
+         * Creates a templ8 object from a file.
+         */
+        static public function from_file($filename, $keywords = array(), $split = FALSE) 
+        {
+            $templ8 = new templ8($filename, $split, $keywords);
+            return $templ8;
+        }
 		
 		public function __construct($filename, $is_split, $keywords)
 		{
@@ -25,8 +46,10 @@
 			$this->_custom_keywords = $keywords;
 			$this->_is_split = $is_split;
 			
-			// Load tempate
-			$this->load_main_template();
+            if($filename !== NULL) {
+                // Load tempate
+                $this->load_main_template();
+            }
 		}
 		
 		public function addKeyword($key,$val){
@@ -79,29 +102,33 @@
 				return false;
 			}
 		}
+
+        public function process_template($markup, $specific_keywords = false) 
+        {
+            // Replace standard keywords
+            foreach($this->_standard_keywords as $keyword => $content){
+                $markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
+            }
+            
+            // Replace custom keywords
+            foreach($this->_custom_keywords as $keyword => $content){
+                $markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
+            }
+            
+            if($specific_keywords)
+            {
+                // Replace specific keywords
+                foreach($specific_keywords as $keyword => $content){
+                    $markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
+                }
+            }
+            return $markup;
+        }
 		
 		public function load_template($filename, $specific_keywords = false)
 		{
 			if(file_exists($filename)){
-				$markup = file_get_contents($filename);
-				
-				// Replace standard keywords
-				foreach($this->_standard_keywords as $keyword => $content){
-					$markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
-				}
-				
-				// Replace custom keywords
-				foreach($this->_custom_keywords as $keyword => $content){
-					$markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
-				}
-				
-				if($specific_keywords)
-				{
-					// Replace specific keywords
-					foreach($specific_keywords as $keyword => $content){
-						$markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
-					}
-				}
+				$markup = $this->process_template(file_get_contents($filename), $specific_keywords);
 				
 				return $markup;
 			}
