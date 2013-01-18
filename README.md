@@ -4,6 +4,16 @@ A really simple HTML template class for PHP. Be aware that it's still in develop
 ## What can you do with it?
 Basically, this class enables you to load HTML based template markup, replace keywords, split the template, and output the markup
 
+
+### Define your Keywords
+When loading a template, an array of keywords to be replace is passed into the method. The array should look something like this:
+
+```PHP
+$keywords = array('THISKEYWORD' => 'This value will be displayed');
+```
+
+THISKEYWORD will be usable in your HTML markup as [TPL8_THISKEYWORD].
+
 ### Loading from a file 
 To load a template from a file, you can use from_file, like so:
 
@@ -18,15 +28,6 @@ To load a template from a string in memory, you can use from_string, like so:
 ```PHP
 $main_template = templ8::from_string('<h1>[TMPL8_KEYWORD]</h1>', $keywords);	
 ```
-
-### Replace Keywords
-When loading a template, an array of keywords to be replace is passed into the method. The array should look something like this:
-
-```PHP
-$keywords = array('THISKEYWORD' => 'This value will be displayed');
-```
-
-THISKEYWORD will be usable in your HTML file as [TPL8_THISKEYWORD].
 
 ### Split the template
 Splitting the template involves splitting the HTML markup into an upper and lower portion using the [TPL8_SPLIT] keyword. 
