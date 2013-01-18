@@ -2,18 +2,25 @@
 A really simple HTML template class for PHP. Be aware that it's still in development and features are subject to change, no warranty is given or implied.
 
 ## What can you do with it?
-Basically, this class enables you to load a HTML based template file, replace keywords, split the template, and output the markup
+Basically, this class enables you to load HTML based template markup, replace keywords, split the template, and output the markup
 
-### Load a Template
-When you init the class, you can specify the file you want to load, like this:
+### Loading from a file 
+To load a template from a file, you can use from_file, like so:
 
 ```PHP
 $split = true;
-$main_template = new templ8('templates/default.html',$split,$keywords);	
+$main_template = templ8::from_file('templates/default.html', $keywords, $split);	
+```
+
+### Loading from a string 
+To load a template from a string in memory, you can use from_string, like so:
+
+```PHP
+$main_template = templ8::from_string('<h1>[TMPL8_KEYWORD]</h1>', $keywords);	
 ```
 
 ### Replace Keywords
-When you init the class, you specify $keywords. This should be an array of key=> value. For example:
+When loading a template, an array of keywords to be replace is passed into the method. The array should look something like this:
 
 ```PHP
 $keywords = array('THISKEYWORD' => 'This value will be displayed');

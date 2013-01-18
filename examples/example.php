@@ -14,13 +14,15 @@
 	 								'EXAMPLE' => 'Hello World',
 	 								'FOOTER' => 'This page was generated using Razor-Studios TPL8'
  								);
+     $keywords2 = array( 'MESSAGE' => 'Congratulations, you got templ8\'d. You are welcome!' );
 	 
 	 // Create a new template from a html file using new templ8();
  	// 	First param is the template location and filename
 	// 	Second param is weather want to split the template's output. TRUE means we want to split this template using the [TPL8_SPLIT] keyword.
 	// 	Third param is the keywords we want to use. Keywords are wrapped in [TPL8_xxxx] where xxxx is your keyword. 
 	//			For example the first keyword in the array is PAGE_TITLE, so you need to add [TPL8_PAGE_TITLE] to your default.hrml if you want to use it.
-	 $main_template = new templ8('templates/default.html',true,$keywords);	
+	 $main_template = templ8::from_file('templates/default.html', $keywords, true);	
+	 $inner_template = templ8::from_string('<h2>This is some custom output</h2><p>[TPL8_MESSAGE]</p>', $keywords2);	
 
 	 // You can output the template 3 ways:
 	 //	1, grab the markup and echo/use it yourself:
@@ -33,7 +35,7 @@
 	 $main_template->output_upper();
 	 
 	 // Do your output here
-	 echo "<h2>This is some custom output</h2><p>Congratulations, you got templ8'd. You are welcome!</p>";
+     $inner_template->output();
 	 
 	 // Output the lower part of the template, so everything after the SPLIT keyword
 	 $main_template->output_lower();
