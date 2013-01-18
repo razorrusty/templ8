@@ -4,7 +4,20 @@ A really simple HTML template class for PHP. Be aware that it's still in develop
 ## What can you do with it?
 Basically, this class enables you to load HTML based template markup, replace keywords, split the template, and output the markup
 
-### Loading from a file 
+
+### Define your Keywords
+When loading a template, an array of keywords to be replace is passed into the method. The array should look something like this:
+
+```PHP
+$keywords = array('THISKEYWORD' => 'This value will be displayed');
+```
+
+THISKEYWORD will be usable in your HTML markup as [TPL8_THISKEYWORD].
+
+### Load the Template
+You can either load your markup from a file or by passing in a string from memory.
+
+#### Loading from a file 
 To load a template from a file, you can use from_file, like so:
 
 ```PHP
@@ -12,18 +25,11 @@ $split = true;
 $main_template = templ8::from_file('templates/default.html', $keywords, $split);	
 ```
 
-### Loading from a string 
+#### Loading from a string 
 To load a template from a string in memory, you can use from_string, like so:
 
 ```PHP
-$main_template = templ8::from_string('<h1>[TMPL8_KEYWORD]</h1>', $keywords);	
-```
-
-### Replace Keywords
-When loading a template, an array of keywords to be replace is passed into the method. The array should look something like this:
-
-```PHP
-$keywords = array('THISKEYWORD' => 'This value will be displayed');
+$main_template = templ8::from_string('<h1>[TPL8_THISKEYWORD]</h1>', $keywords);	
 ```
 
 THISKEYWORD will be usable in your HTML file as [TPL8_THISKEYWORD].
@@ -35,15 +41,14 @@ $template = templ8::from_file('template.html', $keywords, $split, 'TP_');
 // or 
 $template = templ8::from_string('...', $keywords, 'TP_');
 ```
-
-### Split the template
+### Split the template (optional)
 Splitting the template involves splitting the HTML markup into an upper and lower portion using the [TPL8_SPLIT] keyword. 
 Typically you would place this keyword in the HTML file where you would like to put the content, then output the upper template portion, your content and then the lower portion of the template.
 
-#### Automatically
+#### Split Automatically
 You can split the template by specifying $split = true in the constructor.
 
-#### Manually
+#### Split Manually
 It's a good idea to check if the current template is splittable, so use this variable to check:
 
 ```PHP
