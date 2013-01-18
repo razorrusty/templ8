@@ -11,6 +11,7 @@
 		private $_custom_keywords = array();
 		private $_split_keyword = '[TPL8_SPLIT]';
 		private $_is_split;
+        private $_keyword_prefix = 'TPL8_';
 		
 		private $_template_markup;
 		private $_template_upper_markup;
@@ -23,9 +24,9 @@
          * @param $markup the markup source.
          * @param $keywords Template keywords.
          */
-        static public function from_string($markup, $keywords = array() ) 
+        static public function from_string($markup, $keywords = array(), $prefix = NULL ) 
         {
-            $templ8 = new templ8(NULL, FALSE, $keywords);
+            $templ8 = new templ8(NULL, FALSE, $keywords, $prefix);
             $templ8->_template_markup = $templ8->process_template($markup);
             return $templ8;
         }
@@ -33,18 +34,22 @@
         /**
          * Creates a templ8 object from a file.
          */
-        static public function from_file($filename, $keywords = array(), $split = FALSE) 
+        static public function from_file($filename, $keywords = array(), $split = FALSE, $prefix = NULL) 
         {
-            $templ8 = new templ8($filename, $split, $keywords);
+            $templ8 = new templ8($filename, $split, $keywords, $prefix);
             return $templ8;
         }
 		
-		public function __construct($filename, $is_split, $keywords)
+		public function __construct($filename, $is_split, $keywords, $prefix = NULL)
 		{
 			// get variables
 			$this->_filename =$filename;
 			$this->_custom_keywords = $keywords;
 			$this->_is_split = $is_split;
+
+            if(is_string($prefix)) {
+                $this->_keyword_prefix = $prefix;
+            }
 			
             if($filename !== NULL) {
                 // Load tempate
@@ -105,21 +110,22 @@
 
         public function process_template($markup, $specific_keywords = false) 
         {
+            $prefix = $this->_keyword_prefix;
             // Replace standard keywords
             foreach($this->_standard_keywords as $keyword => $content){
-                $markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
+                $markup  = str_replace("[$prefix$keyword]", $content, $markup);
             }
             
             // Replace custom keywords
             foreach($this->_custom_keywords as $keyword => $content){
-                $markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
+                $markup  = str_replace("[$prefix$keyword]", $content, $markup);
             }
             
             if($specific_keywords)
             {
                 // Replace specific keywords
                 foreach($specific_keywords as $keyword => $content){
-                    $markup  = str_replace("[TPL8_". $keyword. "]", $content, $markup);
+                    $markup  = str_replace("[$prefix$keyword]", $content, $markup);
                 }
             }
             return $markup;

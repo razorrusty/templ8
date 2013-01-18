@@ -22,7 +22,7 @@
 	// 	Third param is the keywords we want to use. Keywords are wrapped in [TPL8_xxxx] where xxxx is your keyword. 
 	//			For example the first keyword in the array is PAGE_TITLE, so you need to add [TPL8_PAGE_TITLE] to your default.hrml if you want to use it.
 	 $main_template = templ8::from_file('templates/default.html', $keywords, true);	
-	 $inner_template = templ8::from_string('<h2>This is some custom output</h2><p>[TPL8_MESSAGE]</p>', $keywords2);	
+	 $inner_template = templ8::from_string('<h2>This is some custom output</h2><p>[TP_MESSAGE]</p>', $keywords2, 'TP_');	
 
 	 // You can output the template 3 ways:
 	 //	1, grab the markup and echo/use it yourself:
