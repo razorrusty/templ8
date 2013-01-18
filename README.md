@@ -32,6 +32,15 @@ To load a template from a string in memory, you can use from_string, like so:
 $main_template = templ8::from_string('<h1>[TPL8_THISKEYWORD]</h1>', $keywords);	
 ```
 
+THISKEYWORD will be usable in your HTML file as [TPL8_THISKEYWORD].
+
+### Overide Prefix
+If you'd like to use a prefix other than TPL8\_, you can specify a different prefix like so:
+```PHP
+$template = templ8::from_file('template.html', $keywords, $split, 'TP_');
+// or 
+$template = templ8::from_string('...', $keywords, 'TP_');
+```
 ### Split the template (optional)
 Splitting the template involves splitting the HTML markup into an upper and lower portion using the [TPL8_SPLIT] keyword. 
 Typically you would place this keyword in the HTML file where you would like to put the content, then output the upper template portion, your content and then the lower portion of the template.
