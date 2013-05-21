@@ -12,11 +12,13 @@
 		private $_split_keyword = '[TPL8_SPLIT]';
 		private $_is_split;
         private $_keyword_prefix = 'TPL8_';
-		
+
 		private $_template_markup;
 		private $_template_upper_markup;
 		private $_template_lower_markup;
 		
+		private $_loaded_templates = array();
+
 		public $_can_split;	// is true if the split keyword is detected in the template markup after loading the template
 
         /**
@@ -39,7 +41,7 @@
             $templ8 = new templ8($filename, $split, $keywords, $prefix);
             return $templ8;
         }
-		
+
 		public function __construct($filename, $is_split, $keywords, $prefix = NULL)
 		{
 			// get variables
@@ -50,23 +52,23 @@
             if(is_string($prefix)) {
                 $this->_keyword_prefix = $prefix;
             }
-			
+
             if($filename !== NULL) {
                 // Load tempate
                 $this->load_main_template();
             }
 		}
-		
+
 		public function addKeyword($key,$val){
 			// Add a keyword to the custom keywords
 			$this->_custom_keywords[$key] = $val;
 		}
-		
+
 		public function get_markup(){
 			// Returns the template markup
 			return $this->_template_markup;
 		}
-		
+
 		public function output(){
 			// outputs the template markup
 			if($this->_template_markup != ""){
@@ -75,9 +77,9 @@
 			else{
 				echo "Templ8 Error: Nothing to output. Template is missing or blank.";
 			}
-			
+
 		}
-		
+
 		public function output_upper(){
 			if($this->_is_split && $this->_template_upper_markup != ""){
 				echo $this->_template_upper_markup;
@@ -86,7 +88,7 @@
 				echo "Templ8 Error: This template is not splittable.";
 			}
 		}
-		
+
 		public function output_lower(){
 			if($this->_is_split && $this->_template_lower_markup != ""){
 				echo $this->_template_lower_markup;
@@ -95,12 +97,12 @@
 				echo "Templ8 Error: This template is not splittable.";
 			}
 		}
-		
+
 		public function split_template(){
 			if($this->_can_split ){
 				$this->_template_upper_markup = substr($this->_template_markup,0,stripos($this->_template_markup,$this->_split_keyword));
 				$this->_template_lower_markup = substr($this->_template_markup,stripos($this->_template_markup,$this->_split_keyword)+strlen($this->_split_keyword));			
-				
+
 				return true;
 			}
 			else{
@@ -130,30 +132,35 @@
             }
             return $markup;
         }
-		
+
 		public function load_template($filename, $specific_keywords = false)
 		{
-			if(file_exists($filename)){
-				$markup = $this->process_template(file_get_contents($filename), $specific_keywords);
-				
+			if(array_key_exists($filename, $this->_loaded_templates)){
+				$markup = $this->process_template($this->_loaded_templates[$filename], $specific_keywords);
 				return $markup;
 			}
+			else{
+				if(file_exists($filename)){
+					$markup = $this->process_template(file_get_contents($filename), $specific_keywords);
+					return $markup;
+				}
+			}
 		}
-		
+
 		private function load_main_template(){
-					
+
 			// Load template markup
 			$markup = $this->load_template($this->_filename);
-			
+
 			// Check we have markup
 			if($markup)
 			{
 				// Save markup
 				$this->_template_markup = $markup;
-				
+
 				// Can we split the template?
 				$this->_can_split = !(strpos($this->_template_markup, $this->_split_keyword) === false);
-				
+
 				if($this->_is_split && $this->_can_split){
 					// Split the template
 					$this->split_template();
@@ -165,5 +172,5 @@
 			}
 		}
 	}
-	
+
 ?>
