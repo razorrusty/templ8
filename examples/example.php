@@ -8,11 +8,11 @@
 require("../lib/templ8.php");
 
 // Define some custom keywords
-// HINT: You can add other templates as keywords using $other_template->get_markup(); therefore adding subtemplates.
+// HINT: You can add other templates as keywords using parser::from_file(..)->output(true); therefore adding subtemplates.
 $keywords = array(	
 				'page_title' => 'Hello World',
 				'example' => 'Hello World',
-				'footer' => 'This page was generated using Razor-Studios TPL8'
+				'footer' => 'This page was generated using Helical Templ8 parser'
 			);
 $keywords2 = array( 'message' => 'Congratulations, you got templ8\'d. You are welcome!' );
 
@@ -26,7 +26,7 @@ $inner_template = \helical\templ8\parse::from_string('<h2>This is some custom ou
 
 // You can output the template 3 ways:
 //	1, grab the markup and echo/use it yourself:
-//		$main_template->get_markup();
+//		$main_template->output(true);
 //	2, Output the whole template:
 //		$main_template->output();
 //	3, split the template using the [TPL8_SPLIT] keyword and output the top and bottom separately, as in this example....
